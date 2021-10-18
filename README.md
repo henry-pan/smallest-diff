@@ -1,10 +1,10 @@
-# Atlas Takehome
+# Smallest Difference
 
-A program that reads from some input files depending on the mode and returns the entity with:
+A program that reads from some input files depending on the mode:
 
-- `weather`: day with smallest temperature spread
+- `weather`: returns the day with smallest temperature spread
 
-- `soccer`: team with smallest goal (for/against) difference
+- `soccer`: returns the team with smallest goal (for/against) difference
 
 # Usage
 
@@ -26,7 +26,7 @@ ruby smallest_difference.rb weather
 
 I noticed that the two questions were very similar in nature, so I figured that they would have the same underlying logic. The program would be able to run the same "difference checking" logic on multiple files, which can be handled with modes passed in as an argument. In terms of the logic, it should read the files, get the indices associated with the required columns, and just iterate through the data to find the smallest result.
 
-However, when I looked at at the data files, they were organized for human-readability and were not particularly suited for file-reading. This meant I also had to do some parsing logic to make the data readable.
+However, when I looked at at the data files, it was organized in a somewhat inconvenient way, with blank entries or extra headers. This meant I also had to do some parsing logic to make the data readable.
 
 To start, I read the file line-by-line to add them into an array. I only added lines that were longer than 1 to remove blank links or things like `<pre>`.
 
