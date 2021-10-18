@@ -18,11 +18,22 @@ def clean_weather_input!(input_arr)
   # Remove date header.
   input_arr.shift
 
+  # Get columns that have optional values.
+  hddday_index = input_arr[0].index("HDDay") # Integers
+  hrp_index = input_arr[0].index("1HrP") # Blank?
+  wxtype_index = input_arr[0].index("WxType") # Chars
+
   (1...input_arr.length).each do |i|
     entry = input_arr[i]
 
     # Remove any asterisks.
     entry.map { |value| value.chomp!("*") }
+
+    # Insert into the array to fill in blank columns.
+    # For now, HDDay assumes the next column is AvDP.
+    entry.insert(hddday_index, "0") if entry[hddday_index] =~ /\./
+    entry.insert(hrp_index, "0")
+    entry.insert(wxtype_index, "-") if entry[wxtype_index] !~ /[a-z]/i
 
     input_arr[i] = entry
   end
