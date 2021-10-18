@@ -1,7 +1,36 @@
-require_relative "parse.rb"
+def file_to_array(filepath)
+  array = []
+
+  File.foreach(filepath) do |line|
+    # Clean up the line, then split on space.
+    current_line = line.chomp
+    current_entry = current_line.split
+
+    # Add to the input array only if it contains data.
+    array << current_entry if current_entry.length > 1
+  end
+
+  array
+end
 
 
-# Removes non-data elements from input data.
+def clean_weather_input!(input_arr)
+  # Remove date header.
+  input_arr.shift
+
+  (1...input_arr.length).each do |i|
+    entry = input_arr[i]
+
+    # Remove any asterisks.
+    entry.map { |value| value.chomp!("*") }
+
+    input_arr[i] = entry
+  end
+  
+  input_arr
+end
+
+
 def clean_soccer_input!(input_arr)
   (1...input_arr.length).each do |i|
     # Remove ranking index.
@@ -14,11 +43,6 @@ def clean_soccer_input!(input_arr)
   end
 
   input_arr
-end
-
-
-def clean_weather_input!(input_arr)
-  input_arr.shift
 end
 
 
@@ -45,26 +69,18 @@ def smallest_difference(input_arr, name, col1, col2)
 end
 
 
-input = nil
-name = ""
-col1 = ""
-col2 = ""
+if !ARGV[0]
+  puts "usage: ruby smallest_difference.rb [weather / soccer]"
+  return
+end
 
+# Initialize and assign mode variables depending on ARGV.
 modes = {
   "weather" => ["./w_data.dat", "Dy", "MxT", "MnT"],
   "soccer" => ["./soccer.dat", "Team", "F", "A"],
 }
-
-if ARGV[0]
-  mode = modes[ARGV[0]]
-  input = file_to_array(mode[0])
-  name = mode[1]
-  col1 = mode[2]
-  col2 = mode[3]
-else
-  puts "usage: ruby smallest_difference.rb [weather / soccer]"
-  return
-end
+mode = modes[ARGV[0]]
+input = file_to_array(mode[0])
 
 # Clean up the input before calling main method.
 case ARGV[0]
@@ -74,4 +90,4 @@ when "soccer"
   clean_soccer_input!(input)
 end
 
-puts smallest_difference(input, name, col1, col2)
+puts smallest_difference(input, mode[1], mode[2], mode[3])
