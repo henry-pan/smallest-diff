@@ -11,10 +11,10 @@ A program that reads from some input files depending on the mode and returns the
 To run the code, enter in the terminal:
 
 ```sh
-ruby smallest_difference.rb <arg>
+ruby smallest_difference.rb arg
 ```
 
-where `<arg>` is either `weather` or `soccer`.
+where `arg` is either `weather` or `soccer`.
 
 For example, to run the program to find the weather spread, run:
 
